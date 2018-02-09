@@ -1,0 +1,5328 @@
+---
+swagger: "2.0"
+info:
+  description: "This API specifies all touchpoints corresponding to FundsCorner Customer\n\
+    Acquisition System (CAS) component\n"
+  version: "1.2.7"
+  title: "FundsCorner Customer Acquisition System API"
+  contact:
+    name: "jeyabalaji@fundscorner.com"
+host: "localhost:8080"
+basePath: "/api_cas_fundscorner/v1/"
+schemes:
+- "https"
+paths:
+  /users/{userId}/Devices:
+    get:
+      tags:
+      - "User Devices"
+      summary: "Get all user registered devices"
+      description: "Get all user registered devices"
+      operationId: "find_all_devices"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DeviceArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.user_device_controller"
+    post:
+      tags:
+      - "User Devices"
+      summary: "Add a new device to the user"
+      description: "\"This request saves a device for a user.\"\n"
+      operationId: "add_device"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "device data that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/DeviceObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.user_device_controller"
+  /users/{userId}/PendingTasks:
+    get:
+      tags:
+      - "Pending Tasks"
+      summary: "Get all pending tasks for the user"
+      description: "Get all pending tasks for the user"
+      operationId: "find_all_pending_tasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        description: "user id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.user_tasks_controller"
+  /masterData/banks:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all Banks"
+      description: "This request gets all Banks in CAS."
+      operationId: "find_all_banks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BankResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/businessFileTypes:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all Business File Types"
+      description: "This request gets all Business File Types in CAS."
+      operationId: "find_all_business_file_types"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BusinessFileTypeCodeResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/states:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all States"
+      description: "\"This request gets all States in CAS.\"\n"
+      operationId: "find_all_states"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/StateResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/cities:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all cities"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_cities"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/CitySummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/pinCodes:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all pin codes"
+      description: "\"This request gets all pin codes in CAS.\"\n"
+      operationId: "find_all_pin_codes"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PinCodeSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/pinCodes/{pinCode}:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all pin codes summary by pinCode"
+      description: "\"This request fetches pin code summary based on PinCode. Basically\
+        \ this is a Pin code lookup service.\"\n"
+      operationId: "get_pin_code_summary_by_pin_code"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "pinCode"
+        in: "path"
+        description: "pin code that is passed for lookup"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/PinCodeSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/pinCodes/findByCityOrState:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all pin codes summary by cityId"
+      description: "\"This request fetches pin code summary based on city Id. Basically\
+        \ this is a Pin code lookup service by city.\"\n"
+      operationId: "get_pin_code_summary_by_city_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "cityId"
+        in: "query"
+        description: "city id used for pin code look up. \n"
+        required: false
+        type: "integer"
+      - name: "stateId"
+        in: "query"
+        description: "state id used for pin code look up. \n"
+        required: false
+        type: "integer"
+      - name: "cityName"
+        in: "query"
+        description: "city name used for pin code look up. \n"
+        required: false
+        type: "string"
+      - name: "stateName"
+        in: "query"
+        description: "state name used for pin code look up.   \n"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/PinCodeSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/relationships:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all Relationships"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_relationships"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/RelationshipResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/customerCategories:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all CustomerCategories"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_customer_categories"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/CustomerCategoryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/businessCategories:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all BusinessCategories"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_business_categories"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BusinessCategoryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/businessSubCategories:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all BusinessSubCategories"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_business_sub_categories"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BusinessSubCategoryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/operatingTypes:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all operatingTypes"
+      description: "\"This request gets all cities in CAS.\"\n"
+      operationId: "find_all_operating_types"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OperatingTypeResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /masterData/retailers:
+    get:
+      tags:
+      - "MasterData"
+      summary: "Get all retailers"
+      description: "\"This request gets all retailers in CAS.\"\n"
+      operationId: "find_all_retailers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request."
+        500:
+          description: "Unexpected error."
+      x-swagger-router-controller: "swagger_server.controllers.master_data_controller"
+  /businesses:
+    get:
+      tags:
+      - "Business"
+      summary: "Get all Businessess"
+      description: "\"This request retrieves customers from CAS.\"\n"
+      operationId: "find_businesess"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BusinessSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_controller"
+    post:
+      tags:
+      - "Business"
+      summary: "Add a new Business"
+      description: "\"This request saves a Business in CAS.\"\n"
+      operationId: "add_business"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Business object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_controller"
+  /businesses/{businessId}/{version}:
+    put:
+      tags:
+      - "Business"
+      summary: "Modify an existing Business"
+      description: "\"This request updates a Business in CAS.\"\n"
+      operationId: "edit_business"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business that needs to be updated"
+        required: true
+        type: "string"
+        format: "^[A-z]+$"
+      - name: "version"
+        in: "path"
+        description: "Current Version Number obtained before update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Business object that needs to be modified in the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessObjectUpdate"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_controller"
+  /businesses/{businessId}:
+    get:
+      tags:
+      - "Business"
+      summary: "Find Business by Id"
+      description: "Returns a Business"
+      operationId: "get_business_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business that needs to be queried"
+        required: true
+        type: "string"
+        format: "^[A-z]+$"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BusinessResultsObject"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        404:
+          description: "Business not found"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_controller"
+  /businesses/{businessId}/loanApplications:
+    get:
+      tags:
+      - "Loan Applications"
+      summary: "Get all Loan Applications for  business"
+      description: "\"This request retrieves all Loan applications belonging to a\
+        \ business from CAS.\"\n"
+      operationId: "find_all_business_loan_applications"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business"
+        required: true
+        type: "string"
+        format: "^[A-z]+$"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request."
+        500:
+          description: "Unexpected error."
+      x-swagger-router-controller: "swagger_server.controllers.business_controller"
+  /businesses/{businessId}/bankAccounts:
+    get:
+      tags:
+      - "Business Bank Account"
+      summary: "Get all Business Bank Accounts for  business"
+      description: "\"This request retrieves all Business Bank Accounts from CAS.\"\
+        \n"
+      operationId: "find_all_business_bank_accounts"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business that needs to be updated"
+        required: true
+        type: "string"
+        format: "^[A-z]+$"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BusinessBankAcSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_bank_account_controller"
+    post:
+      tags:
+      - "Business Bank Account"
+      summary: "Add a new Business Bank Account"
+      description: "\"This request saves one or many Business Bank Accounts in CAS.\"\
+        \n"
+      operationId: "add_business_bank_accounts"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business that needs to be updated"
+        required: true
+        type: "string"
+        format: "^[A-z]+$"
+      - in: "body"
+        name: "body"
+        description: "Business Bank account object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessBankAccountObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_bank_account_controller"
+  /businesses/bankAccounts/{businessId}/{bankName}/{accountNumber}/{version}:
+    put:
+      tags:
+      - "Business Bank Account"
+      summary: "Modify an existing Business Bank Account"
+      description: "\"This request updates a Customer Bank Account in CAS.\"\n"
+      operationId: "edit_business_bank_account"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Pan"
+        required: true
+        type: "string"
+      - name: "bankName"
+        in: "path"
+        description: "Bank Name"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Current Version Number obtained before update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "accountNumber"
+        in: "path"
+        description: "ID of Business Bank Account that needs to be updated. This is\
+          \ a combination of business, bank name and account number."
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Business Bank Account object that needs to be modified in the\
+          \ store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessBankAccountObjectUpdate"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_bank_account_controller"
+  /businesses/bankAccounts/{businessId}/{bankName}/{accountNumber}:
+    get:
+      tags:
+      - "Business Bank Account"
+      summary: "Find Business Bank Account by ID"
+      description: "Returns an Customer"
+      operationId: "get_business_bank_account_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Id"
+        required: true
+        type: "string"
+      - name: "bankName"
+        in: "path"
+        description: "Bank Name"
+        required: true
+        type: "string"
+      - name: "accountNumber"
+        in: "path"
+        description: "ID of Business Bank Account that needs to be fetched"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BusinessBankAccountObjectSingle"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        404:
+          description: "Business Bank account not found"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_bank_account_controller"
+  /businesses/{businessId}/businessAddresses:
+    get:
+      tags:
+      - "Business Address"
+      summary: "Get all Business Addresses"
+      description: "\"This request retrieves all Business Addresses from CAS.\"\n"
+      operationId: "find_all_business_addresses"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Pan of Business for which address is getting saved."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BusinessAddressResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_address_controller"
+    post:
+      tags:
+      - "Business Address"
+      summary: "Add a new Business Address"
+      description: "\"This request saves one or many Business Addresses in CAS.\"\n"
+      operationId: "add_business_address"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business for which address is getting saved."
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Business address object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessAddressObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_address_controller"
+  /businesses/businessAddresses/{businessId}/{addressTag}/{version}:
+    put:
+      tags:
+      - "Business Address"
+      summary: "Modify an existing Business Address"
+      description: "\"This request updates a Customer Bank Account in CAS.\"\n"
+      operationId: "edit_business_address"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Id"
+        required: true
+        type: "string"
+      - name: "addressTag"
+        in: "path"
+        description: "Address Tag"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Current Version Number obtained before update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Business Address object that needs to be modified in the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessAddressObjectUpdate"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_address_controller"
+  /businesses/businessAddresses/{businessId}/{addressTag}:
+    get:
+      tags:
+      - "Business Address"
+      summary: "Find Business Address by ID"
+      description: "Returns an Customer"
+      operationId: "get_business_address_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Id"
+        required: true
+        type: "string"
+      - name: "addressTag"
+        in: "path"
+        description: "Address Tag"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BusinessAddressResultsObjectSingle"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        404:
+          description: "Business Address not found"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_address_controller"
+  /businesses/{businessId}/businessPlatform:
+    get:
+      tags:
+      - "Business Platform"
+      summary: "Get all Business Platforms"
+      description: "\"This request retrieves all Business Platforms from CAS.\"\n"
+      operationId: "find_all_business_platforms"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Pan of Business for which platform is getting saved."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BusinessPlatformSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_platform_controller"
+    post:
+      tags:
+      - "Business Platform"
+      summary: "Add a new Business Platform for a Business"
+      description: "\"This request saves one or many Customer Platforms in CAS.\"\n"
+      operationId: "add_business_platforms"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Id of Business for which platform is getting saved."
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Business Platform object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessPlatformObjectArray"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_platform_controller"
+  /businesses/businessPlatform/{businessId}/{orgName}/{version}:
+    put:
+      tags:
+      - "Business Platform"
+      summary: "Modify an existing Business Platform"
+      description: "\"This request updates a Business Platform in CAS.\"\n"
+      operationId: "edit_business_platform"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Id"
+        required: true
+        type: "string"
+      - name: "orgName"
+        in: "path"
+        description: "organization name"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "path"
+        description: "Current Version Number obtained before update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Business Platform object that needs to be modified in the store"
+        required: true
+        schema:
+          $ref: "#/definitions/BusinessPlatformObjectUpdate"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_platform_controller"
+  /businesses/businessPlatform/{businessId}/{orgName}:
+    get:
+      tags:
+      - "Business Platform"
+      summary: "Find Business Platform by ID"
+      description: "Returns an Customer"
+      operationId: "get_business_platform_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business Id"
+        required: true
+        type: "string"
+      - name: "orgName"
+        in: "path"
+        description: "organization name"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/BusinessPlatformResultsObjects"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        404:
+          description: "Customer not found"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_platform_controller"
+  /loanApplications:
+    get:
+      tags:
+      - "Loan Application"
+      summary: "Get all Loan Applications"
+      description: "\"This request retrieves Loan Applications from CAS.\"\n"
+      operationId: "find_loan_applications"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LoanApplicationSummaryResultsObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_controller"
+    post:
+      tags:
+      - "Loan Application"
+      summary: "Add a new Loan Application"
+      description: "\"This request saves a Loan Application in CAS.\"\n"
+      operationId: "add_loan_application"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Loan Application that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_controller"
+  /loanApplications/{loanApplicationId}/{version}:
+    put:
+      tags:
+      - "Loan Application"
+      summary: "Modify an existing Loan Application"
+      description: "\"This request updates a Business in CAS.\"\n"
+      operationId: "edit_loan_application"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "version"
+        in: "path"
+        description: "Current Version Number obtained before update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "loanApplicationId"
+        in: "path"
+        description: "ID of Loan application that needs to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Loan Application object that needs to be modified in the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationObjectUpdate"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_controller"
+  /loanApplications/{loanApplicationId}:
+    get:
+      tags:
+      - "Loan Application"
+      summary: "Find Loan Application by ID"
+      description: "Returns a Business"
+      operationId: "get_loan_application_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanApplicationId"
+        in: "path"
+        description: "ID of loan application that needs to be fetched"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/LoanApplicationResultsObject"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        404:
+          description: "Business not found"
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_controller"
+  /loanApplications/{loanAppId}/loanAppNotes:
+    get:
+      tags:
+      - "Loan Application Notes"
+      summary: "Get all Loan Application Notes"
+      description: "\"This request retrieves Loan Applications from CAS.\"\n"
+      operationId: "find_loan_application_notes"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/LoanApplicationNotesArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_notes_controller"
+    post:
+      tags:
+      - "Loan Application Notes"
+      summary: "Add a new Loan Application Notes"
+      description: "\"This request saves a Loan Application Notes in CAS.\"\n"
+      operationId: "add_loan_application_notes"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Loan Application that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationNotesObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_notes_controller"
+  /loanApplications/loanAppNotes/{loanAppId}/{noteId}/{version}:
+    put:
+      tags:
+      - "Loan Application Notes"
+      summary: "Add a new Loan Application Notes"
+      description: "\"This request saves a Loan Application Notes in CAS.\"\n"
+      operationId: "edit_loan_application_notes"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      - name: "noteId"
+        in: "path"
+        description: "Note ID of loan application Notes"
+        required: true
+        type: "integer"
+        format: "int32"
+      - name: "version"
+        in: "path"
+        description: "current version"
+        required: true
+        type: "integer"
+        format: "int32"
+      - in: "body"
+        name: "body"
+        description: "Loan Application that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationNotesObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_notes_controller"
+  /loanApplications/loanAppNotes/{loanAppId}/{noteId}:
+    get:
+      tags:
+      - "Loan Application Notes"
+      summary: "Get all Loan Application Notes"
+      description: "\"This request retrieves Loan Applications from CAS.\"\n"
+      operationId: "find_loan_app_notes_by_id"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      - name: "noteId"
+        in: "path"
+        description: "Note ID of loan application Notes"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/LoanApplicationNotesObject"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_notes_controller"
+  /loanApplications/{loanAppId}/loanAppTasks:
+    get:
+      tags:
+      - "Loan Application Tasks"
+      summary: "Get all Loan Application Tasks"
+      description: "\"This request retrieves Loan Application Tasks from CAS.\"\n"
+      operationId: "find_loan_application_tasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/LoanApplicationTasksArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_tasks_controller"
+    post:
+      tags:
+      - "Loan Application Tasks"
+      summary: "Add a new Loan Application Task"
+      description: "\"This request saves a Loan Application Task in CAS.\"\n"
+      operationId: "add_loan_application_tasks"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Loan Application Task that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationTasksObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_tasks_controller"
+  /loanApplications/loanAppTasks:
+    put:
+      tags:
+      - "Loan Application Tasks"
+      summary: "Edit a Loan Application Task"
+      description: "\"This request modifies a Loan Application Tasks in CAS.\"\n"
+      operationId: "edit_loan_application_task"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Loan Application Task that needs to be modified in the store"
+        required: true
+        schema:
+          $ref: "#/definitions/LoanApplicationTasksObject"
+      responses:
+        201:
+          description: "Updated"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_tasks_controller"
+  /loanApplications/{loanAppId}/loanAppDocuments:
+    get:
+      tags:
+      - "Loan Application Documents"
+      summary: "Get all Loan Application Documents"
+      description: "\"This request retrieves Loan Application Documents from CAS.\"\
+        \n"
+      operationId: "find_loan_application_docs"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        description: "search text to perform fuzzy search.\n"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/LoanApplicationDocumentsArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_documents_controller"
+  /loanApplications/{loanAppId}/loanAppWorkflow:
+    get:
+      tags:
+      - "Loan Application Workflow"
+      summary: "Get all Loan Application Workflow stages and tasks"
+      description: "\"This request retrieves Loan Application Workflow stages and\
+        \ tasks from Workflow.\"\n"
+      operationId: "find_loan_application_workflow"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "loanAppId"
+        in: "path"
+        description: "ID of loan application"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.loan_application_workflow_controller"
+  /businesses/{businessId}/Files:
+    get:
+      tags:
+      - "Business Files"
+      summary: "Get all uploaded documents"
+      description: "\"This request retrieves uploaded documents from CAS.\"\n"
+      operationId: "find_business_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Business ID of the business"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DocumentsObjectArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_files_controller"
+    post:
+      tags:
+      - "Business Files"
+      summary: "Upload a business file"
+      description: "\"This request uploads a file into CAS for a business.\"\n"
+      operationId: "add_business_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business ID of the business"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Document and its details that needs to be uploaded"
+        required: true
+        schema:
+          $ref: "#/definitions/DocumentsObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_files_controller"
+  /businesses/businessPartner/{businessId}/{partnerPan}/Files:
+    get:
+      tags:
+      - "Business Files"
+      summary: "Get all uploaded documents"
+      description: "\"This request retrieves uploaded documents from CAS.\"\n"
+      operationId: "find_business_partner_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "businessId"
+        in: "path"
+        description: "Business ID of the business"
+        required: true
+        type: "string"
+      - name: "partnerPan"
+        in: "path"
+        description: "Pan ID of the business Partner"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DocumentsObjectArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_files_controller"
+    post:
+      tags:
+      - "Business Files"
+      summary: "Upload a business partner file"
+      description: "\"This request uploads a file into CAS for a business.\"\n"
+      operationId: "add_business_partner_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "businessId"
+        in: "path"
+        description: "Business ID of the business"
+        required: true
+        type: "string"
+      - name: "partnerPan"
+        in: "path"
+        description: "Pan ID of the business Partner"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Document and its details that needs to be uploaded"
+        required: true
+        schema:
+          $ref: "#/definitions/DocumentsObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.business_files_controller"
+  /organization/{org_name}/PlatformFiles:
+    get:
+      tags:
+      - "Organization Platform Purchase/Sale Info"
+      summary: "Get all uploaded documents"
+      description: "\"This request retrieves uploaded documents from CAS.\"\n"
+      operationId: "find_org_platform_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "offset"
+        in: "query"
+        description: "the offset from where the data has to be fetched. By default\
+          \ this is 0."
+        required: false
+        type: "integer"
+        default: 0
+        maximum: 100.0
+        minimum: 0
+        format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "total number of records to be fetched. \nIf limit is sent as\
+          \ zero, just the metaData will be returned with total number of records.\n"
+        required: false
+        type: "integer"
+        default: 200
+      - name: "query"
+        in: "query"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+        uniqueItems: true
+      - name: "org_name"
+        in: "path"
+        description: "Organization Name"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/DocumentsObjectArray"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.organization_platform_purchase_sale_info_controller"
+    post:
+      tags:
+      - "Organization Platform Purchase/Sale Info"
+      summary: "Upload a platform purchase/sale Info file"
+      description: "\"This request uploads a platform purchase/sale Info file into\
+        \ CAS for a business.\"\n"
+      operationId: "add_org_platform_documents"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "org_name"
+        in: "path"
+        description: "Organization Name"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Document and its details that needs to be uploaded"
+        required: true
+        schema:
+          $ref: "#/definitions/DocumentsObject"
+      responses:
+        201:
+          description: "Created"
+        400:
+          description: "Bad Request."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+        500:
+          description: "Unexpected error."
+          schema:
+            $ref: "#/definitions/ErrorObject"
+      x-swagger-router-controller: "swagger_server.controllers.organization_platform_purchase_sale_info_controller"
+definitions:
+  Business:
+    type: "object"
+    required:
+    - "annual_turnover"
+    - "bank_od_cc_limit"
+    - "business_category_code"
+    - "business_mobile_no"
+    - "business_name"
+    - "business_ownership"
+    - "business_pan"
+    - "business_partners"
+    - "business_type_code"
+    - "no_of_employees"
+    - "operating_since_month"
+    - "operating_since_year"
+    - "operating_type_code"
+    - "primary_address_line_1"
+    - "primary_city_name"
+    - "primary_pin_code"
+    - "retailer_id"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      business_name:
+        type: "string"
+        minLength: 3
+        maxLength: 50
+      business_type_code:
+        type: "string"
+        format: "^[A-z]+$"
+      business_category_code:
+        type: "string"
+        format: "^[A-z]+$"
+      business_sub_cat_code:
+        type: "string"
+        format: "^[A-z]+$"
+      operating_type_code:
+        type: "string"
+        format: "^[A-z]+$"
+      operating_since_month:
+        type: "string"
+      operating_since_year:
+        type: "integer"
+        minimum: 1900.0
+      business_pan:
+        type: "string"
+        format: "^[\\w]{3}(p|P|c|C|h|H|f|F|a|A|t|T|b|B|l|L|j|J|g|G)[\\w][\\d]{4}[\\\
+          w]$"
+      gstin_no:
+        type: "string"
+        format: "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+      retailer_id:
+        type: "string"
+        format: "^[\\w]{3}(p|P|c|C|h|H|f|F|a|A|t|T|b|B|l|L|j|J|g|G)[\\w][\\d]{4}[\\\
+          w]$"
+      no_of_partners:
+        type: "integer"
+        minimum: 1
+      no_of_employees:
+        type: "integer"
+        format: "int32"
+        minimum: 1
+        default: 1
+      business_mobile_no:
+        type: "string"
+      business_landline_no:
+        type: "integer"
+        format: "int64"
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      email_id:
+        type: "string"
+        format: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
+      bank_od_cc_limit:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      annual_turnover:
+        type: "string"
+        enum:
+        - "<25L"
+        - "25L-50L"
+        - "50L-1Cr"
+        - "1Cr-2Cr"
+        - "2Cr-3Cr"
+        - "3Cr-4Cr"
+        - "4Cr-5Cr"
+        - ">5Cr"
+      primary_address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      primary_pin_code:
+        type: "string"
+      business_ownership:
+        type: "string"
+        enum:
+        - "Owned by self"
+        - "Owned by Family"
+        - "Owned and Mortgaged"
+        - "Rented-Less than 1 year"
+        - "Rented-1 to 3 years"
+        - "Rented-more than 3 years"
+      business_partners:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPartners"
+    example:
+      operating_type_code: "operating_type_code"
+      business_mobile_no: 5
+      email_id: "email_id"
+      business_landline_no: 2
+      operating_since_month: "JAN"
+      business_partners:
+      - aadhaar_no: "aadhaar_no"
+        gender: "M"
+        date_of_birth: "2000-01-23"
+        last_name: "last_name"
+        pan_no: "pan_no"
+        residence_ownership: "Owned by self"
+        version: 9
+        marital_status: "Not Married"
+        city_name: "city_name"
+        email_address: "email_address"
+        father_name: "father_name"
+        landline_no: 2
+        main_applicant: "Y"
+        address_line_1: "address_line_1"
+        educational_qualification: "ILLITERATE"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        designation: "designation"
+        address_line_2: "address_line_2"
+        mobile_number: 4
+        first_name: "first_name"
+        ownership_in_percent: 3
+        city_pin_code: 7
+      - aadhaar_no: "aadhaar_no"
+        gender: "M"
+        date_of_birth: "2000-01-23"
+        last_name: "last_name"
+        pan_no: "pan_no"
+        residence_ownership: "Owned by self"
+        version: 9
+        marital_status: "Not Married"
+        city_name: "city_name"
+        email_address: "email_address"
+        father_name: "father_name"
+        landline_no: 2
+        main_applicant: "Y"
+        address_line_1: "address_line_1"
+        educational_qualification: "ILLITERATE"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        designation: "designation"
+        address_line_2: "address_line_2"
+        mobile_number: 4
+        first_name: "first_name"
+        ownership_in_percent: 3
+        city_pin_code: 7
+      bank_od_cc_limit: "Y"
+      business_ownership: "Owned by self"
+      business_name: "business_name"
+      gstin_no: "gstin_no"
+      business_type_code: "business_type_code"
+      retailer_id: "retailer_id"
+      no_of_employees: 1
+      no_of_partners: 1
+      version: 0
+      primary_address_line_3: "primary_address_line_3"
+      primary_pin_code: 7
+      primary_address_line_1: "primary_address_line_1"
+      primary_address_line_2: "primary_address_line_2"
+      annual_turnover: "<25L"
+      business_pan: "business_pan"
+      business_sub_cat_code: "business_sub_cat_code"
+      primary_city_name: "primary_city_name"
+      _id: "_id"
+      business_category_code: "business_category_code"
+      operating_since_year: 1900
+  BusinessUpdate:
+    type: "object"
+    properties:
+      business_type_code:
+        type: "string"
+        format: "^[A-z]+$"
+      business_category_code:
+        type: "string"
+        format: "^[A-z]+$"
+      business_sub_cat_code:
+        type: "string"
+        format: "^[A-z]+$"
+      operating_type_code:
+        type: "string"
+        format: "^[A-z]+$"
+      operating_since_month:
+        type: "string"
+      operating_since_year:
+        type: "integer"
+        minimum: 1900.0
+      gstin_no:
+        type: "string"
+        format: "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+      retailer_id:
+        type: "string"
+        format: "^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+      no_of_partners:
+        type: "integer"
+        minimum: 1
+      no_of_employees:
+        type: "integer"
+        format: "int32"
+        minimum: 1
+        default: 1
+      business_mobile_no:
+        type: "string"
+      business_landline_no:
+        type: "integer"
+        format: "int64"
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      email_id:
+        type: "string"
+        format: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
+      bank_od_cc_limit:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      annual_turnover:
+        type: "string"
+        enum:
+        - "<25L"
+        - "25L-50L"
+        - "50L-1Cr"
+        - "1Cr-2Cr"
+        - "2Cr-3Cr"
+        - "3Cr-4Cr"
+        - "4Cr-5Cr"
+        - ">5Cr"
+      primary_address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      primary_city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      business_ownership:
+        type: "string"
+        enum:
+        - "Owned by self"
+        - "Owned by Family"
+        - "Owned and Mortgaged"
+        - "Rented-Less than 1 year"
+        - "Rented-1 to 3 years"
+        - "Rented-more than 3 years"
+      primary_pin_code:
+        type: "string"
+      business_partners:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPartners"
+    example:
+      operating_type_code: "operating_type_code"
+      business_mobile_no: 5
+      email_id: "email_id"
+      gstin_no: "gstin_no"
+      business_type_code: "business_type_code"
+      business_landline_no: 5
+      retailer_id: "retailer_id"
+      no_of_employees: 1
+      operating_since_month: "JAN"
+      no_of_partners: 1
+      primary_address_line_3: "primary_address_line_3"
+      primary_pin_code: 2
+      primary_address_line_1: "primary_address_line_1"
+      business_partners:
+      - aadhaar_no: "aadhaar_no"
+        gender: "M"
+        date_of_birth: "2000-01-23"
+        last_name: "last_name"
+        pan_no: "pan_no"
+        residence_ownership: "Owned by self"
+        version: 9
+        marital_status: "Not Married"
+        city_name: "city_name"
+        email_address: "email_address"
+        father_name: "father_name"
+        landline_no: 2
+        main_applicant: "Y"
+        address_line_1: "address_line_1"
+        educational_qualification: "ILLITERATE"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        designation: "designation"
+        address_line_2: "address_line_2"
+        mobile_number: 4
+        first_name: "first_name"
+        ownership_in_percent: 3
+        city_pin_code: 7
+      - aadhaar_no: "aadhaar_no"
+        gender: "M"
+        date_of_birth: "2000-01-23"
+        last_name: "last_name"
+        pan_no: "pan_no"
+        residence_ownership: "Owned by self"
+        version: 9
+        marital_status: "Not Married"
+        city_name: "city_name"
+        email_address: "email_address"
+        father_name: "father_name"
+        landline_no: 2
+        main_applicant: "Y"
+        address_line_1: "address_line_1"
+        educational_qualification: "ILLITERATE"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        designation: "designation"
+        address_line_2: "address_line_2"
+        mobile_number: 4
+        first_name: "first_name"
+        ownership_in_percent: 3
+        city_pin_code: 7
+      bank_od_cc_limit: "Y"
+      primary_address_line_2: "primary_address_line_2"
+      annual_turnover: "<25L"
+      business_ownership: "Owned by self"
+      business_sub_cat_code: "business_sub_cat_code"
+      primary_city_name: "primary_city_name"
+      business_category_code: "business_category_code"
+      operating_since_year: 1900
+  BusinessPartners:
+    type: "object"
+    required:
+    - "aadhaar_no"
+    - "address_line_1"
+    - "city_name"
+    - "city_pin_code"
+    - "date_of_birth"
+    - "educational_qualification"
+    - "first_name"
+    - "gender"
+    - "last_name"
+    - "marital_status"
+    - "mobile_number"
+    - "pan_no"
+    - "residence_ownership"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      first_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      last_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      gender:
+        type: "string"
+        enum:
+        - "M"
+        - "F"
+        - "O"
+      father_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      date_of_birth:
+        type: "string"
+        format: "date"
+      aadhaar_no:
+        type: "string"
+        format: "^[2-9]{1}[0-9]{11}$"
+      marital_status:
+        type: "string"
+        enum:
+        - "Not Married"
+        - "Married"
+        - "Widowed"
+        - "Divorced"
+        - "Seperated"
+        - "Unspecified"
+      main_applicant:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      pan_no:
+        type: "string"
+        format: "^[\\w]{3}(p|P|c|C|h|H|f|F|a|A|t|T|b|B|l|L|j|J|g|G)[\\w][\\d]{4}[\\\
+          w]$"
+      ownership_in_percent:
+        type: "integer"
+        format: "int64"
+      landline_no:
+        type: "integer"
+        format: "int64"
+      designation:
+        type: "string"
+      residence_ownership:
+        type: "string"
+        enum:
+        - "Owned by self"
+        - "Owned by Family"
+        - "Owned and Mortgaged"
+        - "Rented-Less than 1 year"
+        - "Rented-1 to 3 years"
+        - "Rented-more than 3 years"
+      educational_qualification:
+        type: "string"
+        enum:
+        - "ILLITERATE"
+        - "BELOW MATRICULATION"
+        - "MATRICULATION"
+        - "HIGHER SECONDARY"
+        - "GRADUATE"
+        - "POST GRADUATE"
+        - "PROFESSIONAL"
+      mobile_number:
+        type: "string"
+      email_address:
+        type: "string"
+        format: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
+      address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      city_pin_code:
+        type: "string"
+    example:
+      aadhaar_no: "aadhaar_no"
+      gender: "M"
+      date_of_birth: "2000-01-23"
+      last_name: "last_name"
+      pan_no: "pan_no"
+      residence_ownership: "Owned by self"
+      version: 9
+      marital_status: "Not Married"
+      city_name: "city_name"
+      email_address: "email_address"
+      father_name: "father_name"
+      landline_no: 2
+      main_applicant: "Y"
+      address_line_1: "address_line_1"
+      educational_qualification: "ILLITERATE"
+      address_line_3: "address_line_3"
+      _id: "_id"
+      designation: "designation"
+      address_line_2: "address_line_2"
+      mobile_number: 4
+      first_name: "first_name"
+      ownership_in_percent: 3
+      city_pin_code: 7
+  Individual:
+    type: "object"
+    required:
+    - "aadhaar_no"
+    - "address_line_1"
+    - "city_name"
+    - "city_pin_code"
+    - "date_of_birth"
+    - "educational_qualification"
+    - "first_name"
+    - "gender"
+    - "last_name"
+    - "marital_status"
+    - "mobile_number"
+    - "pan_no"
+    - "residence_ownership"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      first_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      last_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      gender:
+        type: "string"
+        enum:
+        - "M"
+        - "F"
+        - "O"
+      father_name:
+        type: "string"
+        format: "^[a-zA-Z]+$"
+      date_of_birth:
+        type: "string"
+        format: "date"
+      aadhaar_no:
+        type: "string"
+        format: "^[2-9]{1}[0-9]{11}$"
+      marital_status:
+        type: "string"
+        enum:
+        - "Not Married"
+        - "Married"
+        - "Widowed"
+        - "Divorced"
+        - "Seperated"
+        - "Unspecified"
+      main_applicant:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      pan_no:
+        type: "string"
+        format: "^[\\w]{3}(p|P|c|C|h|H|f|F|a|A|t|T|b|B|l|L|j|J|g|G)[\\w][\\d]{4}[\\\
+          w]$"
+      applicant_address:
+        type: "string"
+      ownership_in_percent:
+        type: "integer"
+        format: "int64"
+      landline_no:
+        type: "integer"
+        format: "int64"
+      designation:
+        type: "string"
+      residence_ownership:
+        type: "string"
+        enum:
+        - "Owned by self"
+        - "Owned by Family"
+        - "Owned and Mortgaged"
+        - "Rented-Less than 1 year"
+        - "Rented-1 to 3 years"
+        - "Rented-more than 3 years"
+      educational_qualification:
+        type: "string"
+        enum:
+        - "ILLITERATE"
+        - "BELOW MATRICULATION"
+        - "MATRICULATION"
+        - "HIGHER SECONDARY"
+        - "GRADUATE"
+        - "POST GRADUATE"
+        - "PROFESSIONAL"
+      mobile_number:
+        type: "string"
+      email_address:
+        type: "string"
+        format: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
+      address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      city_pin_code:
+        type: "string"
+        format: "^[A-z]+$"
+  BusinessPlatform:
+    type: "object"
+    required:
+    - "last_six_months_amount"
+    - "merchant_id"
+    - "operating_since_month"
+    - "operating_since_year"
+    - "org_name"
+    - "version"
+    properties:
+      version:
+        type: "integer"
+        format: "int64"
+      org_name:
+        type: "string"
+        format: "^[A-z]+$"
+      merchant_id:
+        type: "string"
+      operating_since_month:
+        type: "string"
+      operating_since_year:
+        type: "integer"
+        format: "int64"
+        minimum: 2000.0
+      last_six_months_amount:
+        type: "integer"
+        format: "int64"
+    example:
+      last_six_months_amount: 1
+      merchant_id: "merchant_id"
+      org_name: "org_name"
+      operating_since_month: "JAN"
+      version: 0
+      operating_since_year: 2000
+  BusinessPlatformUpdate:
+    type: "object"
+    properties:
+      merchant_id:
+        type: "string"
+      operating_since_month:
+        type: "string"
+      operating_since_year:
+        type: "integer"
+        format: "int64"
+        minimum: 2000.0
+      last_six_months_amount:
+        type: "integer"
+        format: "int64"
+    example:
+      last_six_months_amount: 6
+      merchant_id: "merchant_id"
+      operating_since_month: "JAN"
+      operating_since_year: 2000
+  BusinessPlatformDetails:
+    type: "object"
+    required:
+    - "month_code"
+    - "total_amount"
+    - "version"
+    - "year_code"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      month_code:
+        type: "string"
+        enum:
+        - "JAN"
+        - "FEB"
+        - "MAR"
+        - "APR"
+        - "MAY"
+        - "JUN"
+        - "JUL"
+        - "AUG"
+        - "SEP"
+        - "OCT"
+        - "NOV"
+        - "DEC"
+      year_code:
+        type: "integer"
+        format: "int64"
+        minimum: 2000.0
+      total_amount:
+        type: "number"
+        format: "float"
+  BusinessPlatformDetailsUpdate:
+    type: "object"
+    properties:
+      total_amount:
+        type: "number"
+        format: "float"
+  BusinessPlatformSummary:
+    type: "object"
+    required:
+    - "_id"
+    - "business_pan"
+    - "operating_since_month"
+    - "operating_since_year"
+    - "org_name"
+    - "version"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      business_pan:
+        type: "string"
+        format: "^[A-z]+$"
+      org_name:
+        type: "string"
+        format: "^[A-z]+$"
+      merchant_id:
+        type: "string"
+      operating_since_month:
+        type: "string"
+      operating_since_year:
+        type: "integer"
+        format: "int64"
+        minimum: 2000.0
+      last_six_months_amount:
+        type: "integer"
+        format: "int64"
+    example:
+      last_six_months_amount: 1
+      business_pan: "business_pan"
+      _id: "_id"
+      merchant_id: "merchant_id"
+      org_name: "org_name"
+      operating_since_month: "JAN"
+      version: 0
+      operating_since_year: 2000
+  BusinessAddress:
+    type: "object"
+    required:
+    - "address_line_1"
+    - "address_tag"
+    - "city_name"
+    - "city_pin_code"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      address_tag:
+        type: "string"
+        minLength: 3
+        maxLength: 10
+      address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      city_name:
+        type: "string"
+      city_pin_code:
+        type: "string"
+    example:
+      address_tag: "address_tag"
+      city_name: "city_name"
+      address_line_1: "address_line_1"
+      address_line_3: "address_line_3"
+      _id: "_id"
+      address_line_2: "address_line_2"
+      version: 0
+      city_pin_code: 6
+  BusinessAddressUpdate:
+    type: "object"
+    properties:
+      address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      city_name:
+        type: "string"
+      city_pin_code:
+        type: "string"
+    example:
+      city_name: "city_name"
+      address_line_1: "address_line_1"
+      address_line_3: "address_line_3"
+      address_line_2: "address_line_2"
+      city_pin_code: 0
+  BusinessAddressSummary:
+    type: "object"
+    required:
+    - "address_line_1"
+    - "address_tag"
+    - "business_pan"
+    - "city_name"
+    - "city_pin_code"
+    properties:
+      _id:
+        type: "string"
+      business_pan:
+        type: "string"
+        format: "^[A-z]+$"
+      version:
+        type: "integer"
+        format: "int64"
+      address_tag:
+        type: "string"
+        minLength: 3
+        maxLength: 10
+      address_line_1:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_2:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      address_line_3:
+        type: "string"
+        minLength: 5
+        maxLength: 500
+      city_name:
+        type: "string"
+      city_pin_code:
+        type: "string"
+    example:
+      address_tag: "address_tag"
+      city_name: "city_name"
+      business_pan: "business_pan"
+      address_line_1: "address_line_1"
+      address_line_3: "address_line_3"
+      _id: "_id"
+      address_line_2: "address_line_2"
+      version: 0
+      city_pin_code: 6
+  BusinessAddressObject:
+    type: "object"
+    required:
+    - "businessAddress"
+    properties:
+      businessAddress:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessAddress"
+    example:
+      businessAddress:
+      - address_tag: "address_tag"
+        city_name: "city_name"
+        address_line_1: "address_line_1"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        address_line_2: "address_line_2"
+        version: 0
+        city_pin_code: 6
+      - address_tag: "address_tag"
+        city_name: "city_name"
+        address_line_1: "address_line_1"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        address_line_2: "address_line_2"
+        version: 0
+        city_pin_code: 6
+  BusinessAddressObjectUpdate:
+    type: "object"
+    required:
+    - "businessAddress"
+    properties:
+      businessAddress:
+        $ref: "#/definitions/BusinessAddressUpdate"
+    example:
+      businessAddress:
+        city_name: "city_name"
+        address_line_1: "address_line_1"
+        address_line_3: "address_line_3"
+        address_line_2: "address_line_2"
+        city_pin_code: 0
+  BusinessAddressResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessAddress:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessAddressSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessAddress:
+      - address_tag: "address_tag"
+        city_name: "city_name"
+        business_pan: "business_pan"
+        address_line_1: "address_line_1"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        address_line_2: "address_line_2"
+        version: 0
+        city_pin_code: 6
+      - address_tag: "address_tag"
+        city_name: "city_name"
+        business_pan: "business_pan"
+        address_line_1: "address_line_1"
+        address_line_3: "address_line_3"
+        _id: "_id"
+        address_line_2: "address_line_2"
+        version: 0
+        city_pin_code: 6
+  BusinessAddressResultsObjectSingle:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessAddress:
+        type: "object"
+        properties: {}
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessAddress: "{}"
+  BusinessSummary:
+    type: "object"
+    required:
+    - "business"
+    - "business_category"
+    - "business_sub_category"
+    - "business_type"
+    - "operating_type"
+    properties:
+      business:
+        $ref: "#/definitions/Business"
+      business_type:
+        $ref: "#/definitions/BusinessType"
+      business_category:
+        $ref: "#/definitions/BusinessCategory"
+      business_sub_category:
+        $ref: "#/definitions/BusinessSubCategory"
+      operating_type:
+        $ref: "#/definitions/OperatingType"
+      relation:
+        $ref: "#/definitions/Relationship"
+      city:
+        $ref: "#/definitions/City"
+      city_pin:
+        $ref: "#/definitions/PinCode"
+    example:
+      business_category:
+        business_cat_desc: "business_cat_desc"
+        _id: "_id"
+        business_cat_code: "business_cat_code"
+      business:
+        operating_type_code: "operating_type_code"
+        business_mobile_no: 5
+        email_id: "email_id"
+        business_landline_no: 2
+        operating_since_month: "JAN"
+        business_partners:
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        bank_od_cc_limit: "Y"
+        business_ownership: "Owned by self"
+        business_name: "business_name"
+        gstin_no: "gstin_no"
+        business_type_code: "business_type_code"
+        retailer_id: "retailer_id"
+        no_of_employees: 1
+        no_of_partners: 1
+        version: 0
+        primary_address_line_3: "primary_address_line_3"
+        primary_pin_code: 7
+        primary_address_line_1: "primary_address_line_1"
+        primary_address_line_2: "primary_address_line_2"
+        annual_turnover: "<25L"
+        business_pan: "business_pan"
+        business_sub_cat_code: "business_sub_cat_code"
+        primary_city_name: "primary_city_name"
+        _id: "_id"
+        business_category_code: "business_category_code"
+        operating_since_year: 1900
+      business_sub_category:
+        business_sub_cat_code: "business_sub_cat_code"
+        business_sub_cat_desc: "business_sub_cat_desc"
+        _id: "_id"
+      city:
+        city_name: "city_name"
+        _id: 1
+        state_code: "state_code"
+      operating_type:
+        operating_type_code: "operating_type_code"
+        _id: "_id"
+        operating_type_desc: "operating_type_desc"
+      business_type:
+        business_type_desc: "business_type_desc"
+        business_type_code: "business_type_code"
+        _id: "_id"
+      city_pin:
+        city_name: "city_name"
+        pin_code: 1
+        _id: "_id"
+      relation:
+        relationship_name: "relationship_name"
+        relationship_code: "relationship_code"
+        _id: "_id"
+  State:
+    type: "object"
+    required:
+    - "_id"
+    - "state_code"
+    - "state_name"
+    - "tin_number"
+    properties:
+      _id:
+        type: "string"
+      state_code:
+        type: "string"
+        format: "^[A-z]+$"
+      state_name:
+        type: "string"
+        format: "^[A-z]+$"
+      tin_number:
+        type: "integer"
+        format: "int64"
+    example:
+      state_name: "state_name"
+      _id: "_id"
+      state_code: "state_code"
+      tin_number: 0
+  City:
+    type: "object"
+    required:
+    - "_id"
+    - "city_name"
+    - "state_code"
+    properties:
+      _id:
+        type: "integer"
+        format: "int64"
+      state_code:
+        type: "string"
+        format: "^[A-z]+$"
+      city_name:
+        type: "string"
+        format: "^[A-z]+$"
+    example:
+      city_name: "city_name"
+      _id: 1
+      state_code: "state_code"
+  PinCode:
+    type: "object"
+    required:
+    - "_id"
+    - "city_name"
+    - "pin_code"
+    properties:
+      _id:
+        type: "string"
+      city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      pin_code:
+        type: "string"
+    example:
+      city_name: "city_name"
+      pin_code: 1
+      _id: "_id"
+  PinCodeSummary:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      city_name:
+        type: "string"
+        format: "^[A-z]+$"
+      state_name:
+        type: "string"
+        format: "^[A-z]+$"
+      pin_code:
+        type: "string"
+      tin_number:
+        type: "integer"
+        format: "int64"
+    example:
+      city_name: "city_name"
+      state_name: "state_name"
+      pin_code: 0
+      _id: "_id"
+      tin_number: 6
+  Relationship:
+    type: "object"
+    required:
+    - "_id"
+    - "relationship_code"
+    - "relationship_name"
+    properties:
+      _id:
+        type: "string"
+      relationship_code:
+        type: "string"
+      relationship_name:
+        type: "string"
+    example:
+      relationship_name: "relationship_name"
+      relationship_code: "relationship_code"
+      _id: "_id"
+  CustomerCategory:
+    type: "object"
+    required:
+    - "_id"
+    - "customer_cat_code"
+    - "customer_cat_desc"
+    properties:
+      _id:
+        type: "string"
+      customer_cat_code:
+        type: "string"
+      customer_cat_desc:
+        type: "string"
+    example:
+      customer_cat_desc: "customer_cat_desc"
+      customer_cat_code: "customer_cat_code"
+      _id: "_id"
+  BusinessType:
+    type: "object"
+    required:
+    - "_id"
+    - "business_type_code"
+    - "business_type_desc"
+    properties:
+      _id:
+        type: "string"
+      business_type_code:
+        type: "string"
+      business_type_desc:
+        type: "string"
+    example:
+      business_type_desc: "business_type_desc"
+      business_type_code: "business_type_code"
+      _id: "_id"
+  BusinessCategory:
+    type: "object"
+    required:
+    - "_id"
+    - "business_cat_code"
+    - "business_cat_desc"
+    properties:
+      _id:
+        type: "string"
+      business_cat_code:
+        type: "string"
+      business_cat_desc:
+        type: "string"
+    example:
+      business_cat_desc: "business_cat_desc"
+      _id: "_id"
+      business_cat_code: "business_cat_code"
+  BusinessSubCategory:
+    type: "object"
+    required:
+    - "_id"
+    - "business_sub_cat_code"
+    - "business_sub_cat_desc"
+    properties:
+      _id:
+        type: "string"
+      business_sub_cat_code:
+        type: "string"
+      business_sub_cat_desc:
+        type: "string"
+    example:
+      business_sub_cat_code: "business_sub_cat_code"
+      business_sub_cat_desc: "business_sub_cat_desc"
+      _id: "_id"
+  OperatingType:
+    type: "object"
+    required:
+    - "operating_type_code"
+    - "operating_type_desc"
+    properties:
+      _id:
+        type: "string"
+      operating_type_code:
+        type: "string"
+      operating_type_desc:
+        type: "string"
+    example:
+      operating_type_code: "operating_type_code"
+      _id: "_id"
+      operating_type_desc: "operating_type_desc"
+  BusinessFileType:
+    type: "object"
+    required:
+    - "file_type_code"
+    - "file_type_desc"
+    properties:
+      file_type_code:
+        type: "string"
+      file_type_desc:
+        type: "string"
+    example:
+      file_type_desc: "file_type_desc"
+      file_type_code: "file_type_code"
+  DeviceObject:
+    type: "object"
+    required:
+    - "device"
+    properties:
+      device:
+        $ref: "#/definitions/Device"
+    example:
+      device:
+        device_id: "device_id"
+  Device:
+    type: "object"
+    required:
+    - "device_id"
+    properties:
+      device_id:
+        type: "string"
+    example:
+      device_id: "device_id"
+  Bank:
+    type: "object"
+    required:
+    - "bank_name"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      bank_name:
+        type: "string"
+        maxLength: 50
+    example:
+      bank_name: "bank_name"
+      _id: "_id"
+      version: 0
+  CitySummary:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      city_name:
+        type: "string"
+      state_name:
+        type: "string"
+      tin_number:
+        type: "integer"
+        format: "int64"
+    example:
+      city_name: "city_name"
+      state_name: "state_name"
+      _id: "_id"
+      tin_number: 0
+  BusinessBankAccountSummary:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      business_pan:
+        type: "string"
+        format: "^[A-z]+$"
+      bank_name:
+        type: "string"
+        format: "^[A-z]+$"
+      account_number:
+        type: "integer"
+        format: "int64"
+      ifsc_code:
+        type: "string"
+      account_type:
+        type: "string"
+      primary_account:
+        type: "string"
+    example:
+      ifsc_code: "ifsc_code"
+      account_number: 0
+      account_type: "account_type"
+      business_pan: "business_pan"
+      bank_name: "bank_name"
+      _id: "_id"
+      primary_account: "primary_account"
+  BusinessBankAccount:
+    type: "object"
+    required:
+    - "account_number"
+    - "account_type"
+    - "bank_name"
+    - "ifsc_code"
+    - "primary_account"
+    - "version"
+    properties:
+      bank_name:
+        type: "string"
+        format: "^[A-z]+$"
+      account_number:
+        type: "integer"
+        format: "int64"
+      ifsc_code:
+        type: "string"
+        format: "^[A-Za-z]{4}[a-zA-Z0-9]{7}$"
+      account_type:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      primary_account:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      version:
+        type: "integer"
+        format: "int32"
+    example:
+      ifsc_code: "ifsc_code"
+      account_number: 0
+      account_type: "Y"
+      bank_name: "bank_name"
+      primary_account: "Y"
+      version: 6
+  BusinessBankAccountUpdate:
+    type: "object"
+    properties:
+      ifsc_code:
+        type: "string"
+        format: "^[A-Za-z]{4}[a-zA-Z0-9]{7}$"
+      account_type:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      primary_account:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+    example:
+      ifsc_code: "ifsc_code"
+      account_type: "Y"
+      primary_account: "Y"
+  LoanApplication:
+    type: "object"
+    required:
+    - "business_name"
+    - "business_pan"
+    - "initiator"
+    - "loan_amount_required"
+    - "org_name"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      business_pan:
+        type: "string"
+        format: "^[A-z]+$"
+      business_name:
+        type: "string"
+        format: "^[A-z]+$"
+      org_name:
+        type: "string"
+        format: "^[A-z]+$"
+      referred_by:
+        type: "string"
+        format: "^[A-z]+$"
+      initiator:
+        type: "string"
+        format: "^[A-z]+$"
+      loan_amount_required:
+        type: "string"
+      currency:
+        type: "string"
+        default: "INR"
+        enum:
+        - "INR"
+    example:
+      business_name: "business_name"
+      business_pan: "business_pan"
+      loan_amount_required: 6027456.580324784852564334869384765625
+      currency: "INR"
+      _id: "_id"
+      version: 0
+  LoanApplicationUpdate:
+    type: "object"
+    required:
+    - "loan_amount_required"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      business_pan:
+        type: "string"
+        format: "^[A-z]+$"
+      business_name:
+        type: "string"
+        format: "^[A-z]+$"
+      loan_amount_required:
+        type: "number"
+        format: "double"
+        minimum: 1
+        maximum: 1.0E+7
+      currency:
+        type: "string"
+        default: "INR"
+        enum:
+        - "INR"
+    example:
+      business_name: "business_name"
+      business_pan: "business_pan"
+      loan_amount_required: 6027456.580324784852564334869384765625
+      currency: "INR"
+      _id: "_id"
+      version: 0
+  LoanApplicationObject:
+    type: "object"
+    required:
+    - "loanApplication"
+    properties:
+      loanApplication:
+        $ref: "#/definitions/LoanApplication"
+    example:
+      loanApplication:
+        business_name: "business_name"
+        business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+  LoanApplicationObjectUpdate:
+    type: "object"
+    required:
+    - "loanApplication"
+    properties:
+      loanApplication:
+        $ref: "#/definitions/LoanApplicationUpdate"
+    example:
+      loanApplication:
+        business_name: "business_name"
+        business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+  LoanApplicationSummary:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int64"
+      business_pan:
+        type: "string"
+      loan_amount_required:
+        type: "number"
+        format: "double"
+        minimum: 1
+        maximum: 1.0E+7
+      currency:
+        type: "string"
+        default: "INR"
+        enum:
+        - "INR"
+    example:
+      business_pan: "business_pan"
+      loan_amount_required: 6027456.580324784852564334869384765625
+      currency: "INR"
+      _id: "_id"
+      version: 0
+  LoanApplicationResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      loanApplications:
+        type: "array"
+        items:
+          $ref: "#/definitions/LoanApplication"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      loanApplications:
+      - business_name: "business_name"
+        business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+      - business_name: "business_name"
+        business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+  LoanApplicationSummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      loanApplications:
+        type: "array"
+        items:
+          $ref: "#/definitions/LoanApplicationSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      loanApplications:
+      - business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+      - business_pan: "business_pan"
+        loan_amount_required: 6027456.580324784852564334869384765625
+        currency: "INR"
+        _id: "_id"
+        version: 0
+  DeviceArray:
+    type: "object"
+    required:
+    - "devices"
+    properties:
+      devices:
+        type: "array"
+        items:
+          $ref: "#/definitions/Device"
+    example:
+      devices:
+      - device_id: "device_id"
+      - device_id: "device_id"
+  LoanApplicationDocumentsArray:
+    type: "object"
+    required:
+    - "loanAppDocs"
+    properties:
+      loanAppDocs:
+        type: "array"
+        items:
+          $ref: "#/definitions/LoanApplicationDocuments"
+    example:
+      loanAppDocs:
+      - document_name: "document_name"
+        digio_doc_id: "digio_doc_id"
+        partner_pan: "partner_pan"
+        loan_application_id: "loan_application_id"
+        document_id: "document_id"
+        partner_doc: "Y"
+      - document_name: "document_name"
+        digio_doc_id: "digio_doc_id"
+        partner_pan: "partner_pan"
+        loan_application_id: "loan_application_id"
+        document_id: "document_id"
+        partner_doc: "Y"
+  LoanApplicationDocuments:
+    type: "object"
+    required:
+    - "document_id"
+    - "document_name"
+    - "loan_application_id"
+    - "partner_doc"
+    properties:
+      loan_application_id:
+        type: "string"
+      document_id:
+        type: "string"
+      digio_doc_id:
+        type: "string"
+      document_name:
+        type: "string"
+      partner_doc:
+        type: "string"
+        enum:
+        - "Y"
+        - "N"
+      partner_pan:
+        type: "string"
+      partner_mobile:
+        type: "string"
+      esign_status:
+        type: "string"
+    example:
+      document_name: "document_name"
+      digio_doc_id: "digio_doc_id"
+      partner_pan: "partner_pan"
+      loan_application_id: "loan_application_id"
+      document_id: "document_id"
+      partner_doc: "Y"
+  LoanApplicationNotesArray:
+    type: "object"
+    required:
+    - "loanAppNotes"
+    properties:
+      loanAppNotes:
+        type: "array"
+        items:
+          $ref: "#/definitions/LoanApplicationNotes"
+    example:
+      loanAppNotes:
+      - notes: "notes"
+        noteId: 0
+        userId: "userId"
+      - notes: "notes"
+        noteId: 0
+        userId: "userId"
+  LoanApplicationTasksArray:
+    type: "object"
+    required:
+    - "loanAppTasks"
+    properties:
+      loanAppTasks:
+        type: "array"
+        items:
+          $ref: "#/definitions/LoanApplicationTasks"
+    example:
+      loanAppTasks:
+      - stageName: "stageName"
+        taskName: "taskName"
+        userId: "userId"
+        taskStatus: "taskStatus"
+      - stageName: "stageName"
+        taskName: "taskName"
+        userId: "userId"
+        taskStatus: "taskStatus"
+  LoanApplicationTasks:
+    type: "object"
+    required:
+    - "loan_application_id"
+    - "stageName"
+    - "taskName"
+    - "taskStatus"
+    - "userId"
+    properties:
+      taskName:
+        type: "string"
+      stageName:
+        type: "string"
+      taskStatus:
+        type: "string"
+      userId:
+        type: "string"
+      loan_application_id:
+        type: "string"
+    example:
+      stageName: "stageName"
+      taskName: "taskName"
+      userId: "userId"
+      taskStatus: "taskStatus"
+      loan_application_id: "loan_application_id"
+  LoanApplicationNotes:
+    type: "object"
+    required:
+    - "notes"
+    - "userId"
+    properties:
+      userId:
+        type: "string"
+      notes:
+        type: "string"
+      noteId:
+        type: "integer"
+        format: "int32"
+    example:
+      notes: "notes"
+      noteId: 0
+      userId: "userId"
+  LoanApplicationNotesObject:
+    type: "object"
+    required:
+    - "loanAppNotes"
+    properties:
+      loanAppNotes:
+        $ref: "#/definitions/LoanApplicationNotes"
+    example:
+      loanAppNotes:
+        notes: "notes"
+        noteId: 0
+        userId: "userId"
+  LoanApplicationTasksObject:
+    type: "object"
+    required:
+    - "loanAppTasks"
+    properties:
+      loanAppTasks:
+        $ref: "#/definitions/LoanApplicationTasks"
+    example:
+      loanAppTasks:
+        stageName: "stageName"
+        taskName: "taskName"
+        userId: "userId"
+        taskStatus: "taskStatus"
+  DocumentsObjectArray:
+    type: "object"
+    required:
+    - "Files"
+    properties:
+      Files:
+        type: "array"
+        items:
+          $ref: "#/definitions/Documents"
+    example:
+      Files:
+      - file_type: "file_type"
+        file_name: "file_name"
+        file_id: "file_id"
+        file_type_code: "file_type_code"
+        file_data: "file_data"
+      - file_type: "file_type"
+        file_name: "file_name"
+        file_id: "file_id"
+        file_type_code: "file_type_code"
+        file_data: "file_data"
+  DocumentsObject:
+    type: "object"
+    required:
+    - "File"
+    properties:
+      File:
+        $ref: "#/definitions/Documents"
+    example:
+      File:
+        file_type: "file_type"
+        file_name: "file_name"
+        file_id: "file_id"
+        file_type_code: "file_type_code"
+        file_data: "file_data"
+  Documents:
+    type: "object"
+    required:
+    - "file_data"
+    - "file_name"
+    - "file_type"
+    - "file_type_code"
+    properties:
+      file_type_code:
+        type: "string"
+      file_type:
+        type: "string"
+      file_data:
+        type: "string"
+      file_name:
+        type: "string"
+      file_id:
+        type: "string"
+    example:
+      file_type: "file_type"
+      file_name: "file_name"
+      file_id: "file_id"
+      file_type_code: "file_type_code"
+      file_data: "file_data"
+  BusinessPlatformDetailResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessPlatformDetails:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPlatformDetails"
+      metadata:
+        $ref: "#/definitions/Metadata"
+  BusinessPlatformDetailResultsObjectSingle:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessPlatformDetails:
+        $ref: "#/definitions/BusinessPlatformDetails"
+      metadata:
+        $ref: "#/definitions/Metadata"
+  BusinessPlatformResultsObjects:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessPlatform:
+        $ref: "#/definitions/BusinessPlatform"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessPlatform:
+        last_six_months_amount: 1
+        merchant_id: "merchant_id"
+        org_name: "org_name"
+        operating_since_month: "JAN"
+        version: 0
+        operating_since_year: 2000
+  BankResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      bank:
+        type: "array"
+        items:
+          $ref: "#/definitions/Bank"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      bank:
+      - bank_name: "bank_name"
+        _id: "_id"
+        version: 0
+      - bank_name: "bank_name"
+        _id: "_id"
+        version: 0
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+  BusinessBankAccountResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessBankAccount:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessBankAccount"
+      metadata:
+        $ref: "#/definitions/Metadata"
+  StateResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      state:
+        type: "array"
+        items:
+          $ref: "#/definitions/State"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      state:
+      - state_name: "state_name"
+        _id: "_id"
+        state_code: "state_code"
+        tin_number: 0
+      - state_name: "state_name"
+        _id: "_id"
+        state_code: "state_code"
+        tin_number: 0
+  CityResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      city:
+        type: "array"
+        items:
+          $ref: "#/definitions/City"
+      metadata:
+        $ref: "#/definitions/Metadata"
+  CitySummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      city:
+        type: "array"
+        items:
+          $ref: "#/definitions/CitySummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      city:
+      - city_name: "city_name"
+        state_name: "state_name"
+        _id: "_id"
+        tin_number: 0
+      - city_name: "city_name"
+        state_name: "state_name"
+        _id: "_id"
+        tin_number: 0
+  PinCodeSummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      pinCode:
+        type: "array"
+        items:
+          $ref: "#/definitions/PinCodeSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      pinCode:
+      - city_name: "city_name"
+        state_name: "state_name"
+        pin_code: 0
+        _id: "_id"
+        tin_number: 6
+      - city_name: "city_name"
+        state_name: "state_name"
+        pin_code: 0
+        _id: "_id"
+        tin_number: 6
+  RelationshipResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      relationship:
+        type: "array"
+        items:
+          $ref: "#/definitions/Relationship"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      relationship:
+      - relationship_name: "relationship_name"
+        relationship_code: "relationship_code"
+        _id: "_id"
+      - relationship_name: "relationship_name"
+        relationship_code: "relationship_code"
+        _id: "_id"
+  CustomerCategoryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      customerCategory:
+        type: "array"
+        items:
+          $ref: "#/definitions/CustomerCategory"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      customerCategory:
+      - customer_cat_desc: "customer_cat_desc"
+        customer_cat_code: "customer_cat_code"
+        _id: "_id"
+      - customer_cat_desc: "customer_cat_desc"
+        customer_cat_code: "customer_cat_code"
+        _id: "_id"
+  BusinessCategoryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessCategory:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessCategory"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessCategory:
+      - business_cat_desc: "business_cat_desc"
+        _id: "_id"
+        business_cat_code: "business_cat_code"
+      - business_cat_desc: "business_cat_desc"
+        _id: "_id"
+        business_cat_code: "business_cat_code"
+  BusinessSubCategoryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessSubCategory:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessSubCategory"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessSubCategory:
+      - business_sub_cat_code: "business_sub_cat_code"
+        business_sub_cat_desc: "business_sub_cat_desc"
+        _id: "_id"
+      - business_sub_cat_code: "business_sub_cat_code"
+        business_sub_cat_desc: "business_sub_cat_desc"
+        _id: "_id"
+  OperatingTypeResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      operatingType:
+        type: "array"
+        items:
+          $ref: "#/definitions/OperatingType"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      operatingType:
+      - operating_type_code: "operating_type_code"
+        _id: "_id"
+        operating_type_desc: "operating_type_desc"
+      - operating_type_code: "operating_type_code"
+        _id: "_id"
+        operating_type_desc: "operating_type_desc"
+  BusinessFileTypeCodeResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessFileType:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessFileType"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessFileType:
+      - file_type_desc: "file_type_desc"
+        file_type_code: "file_type_code"
+      - file_type_desc: "file_type_desc"
+        file_type_code: "file_type_code"
+  BusinessBankAcSummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessBankAccount:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessBankAccountSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessBankAccount:
+      - ifsc_code: "ifsc_code"
+        account_number: 0
+        account_type: "account_type"
+        business_pan: "business_pan"
+        bank_name: "bank_name"
+        _id: "_id"
+        primary_account: "primary_account"
+      - ifsc_code: "ifsc_code"
+        account_number: 0
+        account_type: "account_type"
+        business_pan: "business_pan"
+        bank_name: "bank_name"
+        _id: "_id"
+        primary_account: "primary_account"
+  BusinessPlatformSummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      businessPlatform:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPlatformSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      businessPlatform:
+      - last_six_months_amount: 1
+        business_pan: "business_pan"
+        _id: "_id"
+        merchant_id: "merchant_id"
+        org_name: "org_name"
+        operating_since_month: "JAN"
+        version: 0
+        operating_since_year: 2000
+      - last_six_months_amount: 1
+        business_pan: "business_pan"
+        _id: "_id"
+        merchant_id: "merchant_id"
+        org_name: "org_name"
+        operating_since_month: "JAN"
+        version: 0
+        operating_since_year: 2000
+  BusinessSummaryResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      business:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessSummary"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      business:
+      - business_category:
+          business_cat_desc: "business_cat_desc"
+          _id: "_id"
+          business_cat_code: "business_cat_code"
+        business:
+          operating_type_code: "operating_type_code"
+          business_mobile_no: 5
+          email_id: "email_id"
+          business_landline_no: 2
+          operating_since_month: "JAN"
+          business_partners:
+          - aadhaar_no: "aadhaar_no"
+            gender: "M"
+            date_of_birth: "2000-01-23"
+            last_name: "last_name"
+            pan_no: "pan_no"
+            residence_ownership: "Owned by self"
+            version: 9
+            marital_status: "Not Married"
+            city_name: "city_name"
+            email_address: "email_address"
+            father_name: "father_name"
+            landline_no: 2
+            main_applicant: "Y"
+            address_line_1: "address_line_1"
+            educational_qualification: "ILLITERATE"
+            address_line_3: "address_line_3"
+            _id: "_id"
+            designation: "designation"
+            address_line_2: "address_line_2"
+            mobile_number: 4
+            first_name: "first_name"
+            ownership_in_percent: 3
+            city_pin_code: 7
+          - aadhaar_no: "aadhaar_no"
+            gender: "M"
+            date_of_birth: "2000-01-23"
+            last_name: "last_name"
+            pan_no: "pan_no"
+            residence_ownership: "Owned by self"
+            version: 9
+            marital_status: "Not Married"
+            city_name: "city_name"
+            email_address: "email_address"
+            father_name: "father_name"
+            landline_no: 2
+            main_applicant: "Y"
+            address_line_1: "address_line_1"
+            educational_qualification: "ILLITERATE"
+            address_line_3: "address_line_3"
+            _id: "_id"
+            designation: "designation"
+            address_line_2: "address_line_2"
+            mobile_number: 4
+            first_name: "first_name"
+            ownership_in_percent: 3
+            city_pin_code: 7
+          bank_od_cc_limit: "Y"
+          business_ownership: "Owned by self"
+          business_name: "business_name"
+          gstin_no: "gstin_no"
+          business_type_code: "business_type_code"
+          retailer_id: "retailer_id"
+          no_of_employees: 1
+          no_of_partners: 1
+          version: 0
+          primary_address_line_3: "primary_address_line_3"
+          primary_pin_code: 7
+          primary_address_line_1: "primary_address_line_1"
+          primary_address_line_2: "primary_address_line_2"
+          annual_turnover: "<25L"
+          business_pan: "business_pan"
+          business_sub_cat_code: "business_sub_cat_code"
+          primary_city_name: "primary_city_name"
+          _id: "_id"
+          business_category_code: "business_category_code"
+          operating_since_year: 1900
+        business_sub_category:
+          business_sub_cat_code: "business_sub_cat_code"
+          business_sub_cat_desc: "business_sub_cat_desc"
+          _id: "_id"
+        city:
+          city_name: "city_name"
+          _id: 1
+          state_code: "state_code"
+        operating_type:
+          operating_type_code: "operating_type_code"
+          _id: "_id"
+          operating_type_desc: "operating_type_desc"
+        business_type:
+          business_type_desc: "business_type_desc"
+          business_type_code: "business_type_code"
+          _id: "_id"
+        city_pin:
+          city_name: "city_name"
+          pin_code: 1
+          _id: "_id"
+        relation:
+          relationship_name: "relationship_name"
+          relationship_code: "relationship_code"
+          _id: "_id"
+      - business_category:
+          business_cat_desc: "business_cat_desc"
+          _id: "_id"
+          business_cat_code: "business_cat_code"
+        business:
+          operating_type_code: "operating_type_code"
+          business_mobile_no: 5
+          email_id: "email_id"
+          business_landline_no: 2
+          operating_since_month: "JAN"
+          business_partners:
+          - aadhaar_no: "aadhaar_no"
+            gender: "M"
+            date_of_birth: "2000-01-23"
+            last_name: "last_name"
+            pan_no: "pan_no"
+            residence_ownership: "Owned by self"
+            version: 9
+            marital_status: "Not Married"
+            city_name: "city_name"
+            email_address: "email_address"
+            father_name: "father_name"
+            landline_no: 2
+            main_applicant: "Y"
+            address_line_1: "address_line_1"
+            educational_qualification: "ILLITERATE"
+            address_line_3: "address_line_3"
+            _id: "_id"
+            designation: "designation"
+            address_line_2: "address_line_2"
+            mobile_number: 4
+            first_name: "first_name"
+            ownership_in_percent: 3
+            city_pin_code: 7
+          - aadhaar_no: "aadhaar_no"
+            gender: "M"
+            date_of_birth: "2000-01-23"
+            last_name: "last_name"
+            pan_no: "pan_no"
+            residence_ownership: "Owned by self"
+            version: 9
+            marital_status: "Not Married"
+            city_name: "city_name"
+            email_address: "email_address"
+            father_name: "father_name"
+            landline_no: 2
+            main_applicant: "Y"
+            address_line_1: "address_line_1"
+            educational_qualification: "ILLITERATE"
+            address_line_3: "address_line_3"
+            _id: "_id"
+            designation: "designation"
+            address_line_2: "address_line_2"
+            mobile_number: 4
+            first_name: "first_name"
+            ownership_in_percent: 3
+            city_pin_code: 7
+          bank_od_cc_limit: "Y"
+          business_ownership: "Owned by self"
+          business_name: "business_name"
+          gstin_no: "gstin_no"
+          business_type_code: "business_type_code"
+          retailer_id: "retailer_id"
+          no_of_employees: 1
+          no_of_partners: 1
+          version: 0
+          primary_address_line_3: "primary_address_line_3"
+          primary_pin_code: 7
+          primary_address_line_1: "primary_address_line_1"
+          primary_address_line_2: "primary_address_line_2"
+          annual_turnover: "<25L"
+          business_pan: "business_pan"
+          business_sub_cat_code: "business_sub_cat_code"
+          primary_city_name: "primary_city_name"
+          _id: "_id"
+          business_category_code: "business_category_code"
+          operating_since_year: 1900
+        business_sub_category:
+          business_sub_cat_code: "business_sub_cat_code"
+          business_sub_cat_desc: "business_sub_cat_desc"
+          _id: "_id"
+        city:
+          city_name: "city_name"
+          _id: 1
+          state_code: "state_code"
+        operating_type:
+          operating_type_code: "operating_type_code"
+          _id: "_id"
+          operating_type_desc: "operating_type_desc"
+        business_type:
+          business_type_desc: "business_type_desc"
+          business_type_code: "business_type_code"
+          _id: "_id"
+        city_pin:
+          city_name: "city_name"
+          pin_code: 1
+          _id: "_id"
+        relation:
+          relationship_name: "relationship_name"
+          relationship_code: "relationship_code"
+          _id: "_id"
+  BusinessResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      business:
+        type: "array"
+        items:
+          $ref: "#/definitions/Business"
+      metadata:
+        $ref: "#/definitions/Metadata"
+    example:
+      metadata:
+        total: 1
+        offset: 5
+        count: 6
+        limit: 5
+      business:
+      - operating_type_code: "operating_type_code"
+        business_mobile_no: 5
+        email_id: "email_id"
+        business_landline_no: 2
+        operating_since_month: "JAN"
+        business_partners:
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        bank_od_cc_limit: "Y"
+        business_ownership: "Owned by self"
+        business_name: "business_name"
+        gstin_no: "gstin_no"
+        business_type_code: "business_type_code"
+        retailer_id: "retailer_id"
+        no_of_employees: 1
+        no_of_partners: 1
+        version: 0
+        primary_address_line_3: "primary_address_line_3"
+        primary_pin_code: 7
+        primary_address_line_1: "primary_address_line_1"
+        primary_address_line_2: "primary_address_line_2"
+        annual_turnover: "<25L"
+        business_pan: "business_pan"
+        business_sub_cat_code: "business_sub_cat_code"
+        primary_city_name: "primary_city_name"
+        _id: "_id"
+        business_category_code: "business_category_code"
+        operating_since_year: 1900
+      - operating_type_code: "operating_type_code"
+        business_mobile_no: 5
+        email_id: "email_id"
+        business_landline_no: 2
+        operating_since_month: "JAN"
+        business_partners:
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        bank_od_cc_limit: "Y"
+        business_ownership: "Owned by self"
+        business_name: "business_name"
+        gstin_no: "gstin_no"
+        business_type_code: "business_type_code"
+        retailer_id: "retailer_id"
+        no_of_employees: 1
+        no_of_partners: 1
+        version: 0
+        primary_address_line_3: "primary_address_line_3"
+        primary_pin_code: 7
+        primary_address_line_1: "primary_address_line_1"
+        primary_address_line_2: "primary_address_line_2"
+        annual_turnover: "<25L"
+        business_pan: "business_pan"
+        business_sub_cat_code: "business_sub_cat_code"
+        primary_city_name: "primary_city_name"
+        _id: "_id"
+        business_category_code: "business_category_code"
+        operating_since_year: 1900
+  IndividualResultsObject:
+    type: "object"
+    required:
+    - "metadata"
+    properties:
+      individual:
+        type: "array"
+        items:
+          $ref: "#/definitions/Individual"
+      metadata:
+        $ref: "#/definitions/Metadata"
+  BusinessPlatformDetailsObject:
+    type: "object"
+    properties:
+      businessPlatformDetails:
+        $ref: "#/definitions/BusinessPlatformDetails"
+  BusinessPlatformDetailsObjectArray:
+    type: "object"
+    properties:
+      businessPlatformDetails:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPlatformDetails"
+  BusinessPlatformDetailsObjectUpdate:
+    type: "object"
+    properties:
+      businessPlatformDetails:
+        $ref: "#/definitions/BusinessPlatformDetailsUpdate"
+  BusinessPlatformObject:
+    type: "object"
+    properties:
+      businessPlatform:
+        $ref: "#/definitions/BusinessPlatform"
+  BusinessPlatformObjectArray:
+    type: "object"
+    properties:
+      businessPlatform:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessPlatform"
+    example:
+      businessPlatform:
+      - last_six_months_amount: 1
+        merchant_id: "merchant_id"
+        org_name: "org_name"
+        operating_since_month: "JAN"
+        version: 0
+        operating_since_year: 2000
+      - last_six_months_amount: 1
+        merchant_id: "merchant_id"
+        org_name: "org_name"
+        operating_since_month: "JAN"
+        version: 0
+        operating_since_year: 2000
+  BusinessPlatformObjectUpdate:
+    type: "object"
+    properties:
+      businessPlatform:
+        $ref: "#/definitions/BusinessPlatformUpdate"
+    example:
+      businessPlatform:
+        last_six_months_amount: 6
+        merchant_id: "merchant_id"
+        operating_since_month: "JAN"
+        operating_since_year: 2000
+  BusinessBankAccountObject:
+    type: "object"
+    properties:
+      businessBankAccount:
+        type: "array"
+        items:
+          $ref: "#/definitions/BusinessBankAccount"
+    example:
+      businessBankAccount:
+      - ifsc_code: "ifsc_code"
+        account_number: 0
+        account_type: "Y"
+        bank_name: "bank_name"
+        primary_account: "Y"
+        version: 6
+      - ifsc_code: "ifsc_code"
+        account_number: 0
+        account_type: "Y"
+        bank_name: "bank_name"
+        primary_account: "Y"
+        version: 6
+  BusinessBankAccountObjectSingle:
+    type: "object"
+    properties:
+      businessBankAccount:
+        $ref: "#/definitions/BusinessBankAccount"
+    example:
+      businessBankAccount:
+        ifsc_code: "ifsc_code"
+        account_number: 0
+        account_type: "Y"
+        bank_name: "bank_name"
+        primary_account: "Y"
+        version: 6
+  BusinessBankAccountObjectUpdate:
+    type: "object"
+    properties:
+      businessBankAccount:
+        $ref: "#/definitions/BusinessBankAccountUpdate"
+    example:
+      businessBankAccount:
+        ifsc_code: "ifsc_code"
+        account_type: "Y"
+        primary_account: "Y"
+  BusinessObject:
+    type: "object"
+    properties:
+      business:
+        $ref: "#/definitions/Business"
+    example:
+      business:
+        operating_type_code: "operating_type_code"
+        business_mobile_no: 5
+        email_id: "email_id"
+        business_landline_no: 2
+        operating_since_month: "JAN"
+        business_partners:
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        bank_od_cc_limit: "Y"
+        business_ownership: "Owned by self"
+        business_name: "business_name"
+        gstin_no: "gstin_no"
+        business_type_code: "business_type_code"
+        retailer_id: "retailer_id"
+        no_of_employees: 1
+        no_of_partners: 1
+        version: 0
+        primary_address_line_3: "primary_address_line_3"
+        primary_pin_code: 7
+        primary_address_line_1: "primary_address_line_1"
+        primary_address_line_2: "primary_address_line_2"
+        annual_turnover: "<25L"
+        business_pan: "business_pan"
+        business_sub_cat_code: "business_sub_cat_code"
+        primary_city_name: "primary_city_name"
+        _id: "_id"
+        business_category_code: "business_category_code"
+        operating_since_year: 1900
+  BusinessObjectUpdate:
+    type: "object"
+    properties:
+      business:
+        $ref: "#/definitions/BusinessUpdate"
+    example:
+      business:
+        operating_type_code: "operating_type_code"
+        business_mobile_no: 5
+        email_id: "email_id"
+        gstin_no: "gstin_no"
+        business_type_code: "business_type_code"
+        business_landline_no: 5
+        retailer_id: "retailer_id"
+        no_of_employees: 1
+        operating_since_month: "JAN"
+        no_of_partners: 1
+        primary_address_line_3: "primary_address_line_3"
+        primary_pin_code: 2
+        primary_address_line_1: "primary_address_line_1"
+        business_partners:
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        - aadhaar_no: "aadhaar_no"
+          gender: "M"
+          date_of_birth: "2000-01-23"
+          last_name: "last_name"
+          pan_no: "pan_no"
+          residence_ownership: "Owned by self"
+          version: 9
+          marital_status: "Not Married"
+          city_name: "city_name"
+          email_address: "email_address"
+          father_name: "father_name"
+          landline_no: 2
+          main_applicant: "Y"
+          address_line_1: "address_line_1"
+          educational_qualification: "ILLITERATE"
+          address_line_3: "address_line_3"
+          _id: "_id"
+          designation: "designation"
+          address_line_2: "address_line_2"
+          mobile_number: 4
+          first_name: "first_name"
+          ownership_in_percent: 3
+          city_pin_code: 7
+        bank_od_cc_limit: "Y"
+        primary_address_line_2: "primary_address_line_2"
+        annual_turnover: "<25L"
+        business_ownership: "Owned by self"
+        business_sub_cat_code: "business_sub_cat_code"
+        primary_city_name: "primary_city_name"
+        business_category_code: "business_category_code"
+        operating_since_year: 1900
+  IndividualObject:
+    type: "object"
+    properties:
+      individual:
+        $ref: "#/definitions/Individual"
+  ErrorObject:
+    type: "object"
+    required:
+    - "error"
+    properties:
+      error:
+        $ref: "#/definitions/Error"
+  Error:
+    type: "object"
+    required:
+    - "code"
+    - "message"
+    properties:
+      code:
+        type: "integer"
+        format: "int64"
+      message:
+        type: "string"
+  Metadata:
+    type: "object"
+    required:
+    - "count"
+    - "limit"
+    - "offset"
+    - "total"
+    properties:
+      count:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      limit:
+        type: "integer"
+        format: "int64"
+    example:
+      total: 1
+      offset: 5
+      count: 6
+      limit: 5
+parameters:
+  token:
+    name: "Bearer"
+    in: "header"
+    description: "Bearer token that is obtained after authentication shall be sent.\
+      \ This will be validated first\nbefore performing the operation\n"
+    required: true
+    type: "string"
+  user:
+    name: "userId"
+    in: "header"
+    description: "Id of the user who is performing this operation.\n"
+    required: true
+    type: "string"
+  offset:
+    name: "offset"
+    in: "query"
+    description: "the offset from where the data has to be fetched. By default this\
+      \ is 0."
+    required: false
+    type: "integer"
+    default: 0
+    maximum: 100.0
+    minimum: 0
+    format: "int32"
+  limit:
+    name: "limit"
+    in: "query"
+    description: "total number of records to be fetched. \nIf limit is sent as zero,\
+      \ just the metaData will be returned with total number of records.\n"
+    required: false
+    type: "integer"
+    default: 200
+  query:
+    name: "query"
+    in: "query"
+    description: "search text to perform fuzzy search.\n"
+    required: false
+    type: "array"
+    items:
+      type: "string"
+    collectionFormat: "multi"
+    uniqueItems: true
+  cityId:
+    name: "cityId"
+    in: "query"
+    description: "city id used for pin code look up. \n"
+    required: false
+    type: "integer"
+  stateId:
+    name: "stateId"
+    in: "query"
+    description: "state id used for pin code look up. \n"
+    required: false
+    type: "integer"
+  cityName:
+    name: "cityName"
+    in: "query"
+    description: "city name used for pin code look up. \n"
+    required: false
+    type: "string"
+  stateName:
+    name: "stateName"
+    in: "query"
+    description: "state name used for pin code look up.   \n"
+    required: false
+    type: "string"
